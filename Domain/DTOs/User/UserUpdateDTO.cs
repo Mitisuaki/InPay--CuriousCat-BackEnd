@@ -9,9 +9,10 @@ public class UserUpdateDTO
     public string? NickName { get; set; }
     
     [Required(AllowEmptyStrings = false, ErrorMessage="Informção de Email obrigatório!")]
+    [RegularExpression(".+\\@.+\\..+",ErrorMessage = "Informe um email válido!")]
     public string? Email { get; set; }
     
-    [Required(AllowEmptyStrings = false, ErrorMessage="Informção de Email obrigatório!")]
+    [Required(AllowEmptyStrings = false, ErrorMessage="Informção de Telefone obrigatório!")]
     public List<int>? Phones { get; set; }
 
 }
