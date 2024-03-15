@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InPay--CuriousCat-BackEnd")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+480614102be13a84dc6819eebfdd1f796a1f3e98")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cbae4fbc42155bb5fd42bfd9e5334f0531ea6037")]
 [assembly: System.Reflection.AssemblyProductAttribute("InPay--CuriousCat-BackEnd")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InPay--CuriousCat-BackEnd")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
