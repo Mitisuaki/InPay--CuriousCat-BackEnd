@@ -3,7 +3,7 @@ using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 namespace InPay__CuriousCat_BackEnd.Domain.Models;
 
 
-public class User
+public class User : Entity
 {
     public int Id { get; set; }
     public string? NickName { get; set; }
