@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InPay__CuriousCat_BackEnd.Domain;
 
-public class UserDbContext : DbContext {
+public class AppDbContext : DbContext {
     
-    public UserDbContext(DbContextOptions<UserDbContext> options) 
+    public AppDbContext(DbContextOptions<AppDbContext> options) 
     :base(options) { }
 
     public DbSet<User> Users { get; set; }

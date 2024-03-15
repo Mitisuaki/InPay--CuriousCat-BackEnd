@@ -14,7 +14,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Falta adicionar dependencia Microsoft.EntityFrameworkCore.Sqlite
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<UserDbContext>(options => {
+builder.Services.AddDbContext<AppDbContext>(options => {
  options.UseSqlite(defaultConnectionString);
 });
 
