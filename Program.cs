@@ -1,3 +1,6 @@
+using InPay__CuriousCat_BackEnd.Domain;
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +11,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Falta adicionar dependencia Microsoft.EntityFrameworkCore.Sqlite
+var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<UserDbContext>(options => {
+ options.UseSqlite(defaultConnectionString);
+});
+
 
 var app = builder.Build();
 
