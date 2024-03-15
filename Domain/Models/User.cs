@@ -1,7 +1,6 @@
-using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
-
 namespace InPay__CuriousCat_BackEnd.Domain.Models;
 
+using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 
 public class User : Entity
 {
