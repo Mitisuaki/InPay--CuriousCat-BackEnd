@@ -17,8 +17,5 @@ public class User
     public bool IsAdmin { get; set; }
     public string? RecoveryCode { get; set; }
 
-    public User()
-    {
-
-    }
+    public User() { }
 }
