@@ -5,9 +5,9 @@ using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 
 public class User : Entity
 {
-    [Required(AllowEmptyStrings = false, ErrorMessage="Informção de Nickname obrigatório!")]
-    [StringLength(20, MinimumLength = 5)]
-    [Display(Name = "NickName")]
+    //[Required(AllowEmptyStrings = false, ErrorMessage="Informção de Nickname obrigatório!")]
+    //[StringLength(20, MinimumLength = 5)]
+    //[Display(Name = "NickName")]
     public string? NickName { get; set; }
 
     [Required(AllowEmptyStrings = false, ErrorMessage="Informção de Email obrigatório!")]
@@ -22,17 +22,16 @@ public class User : Entity
     public string? Password { get; set; }
 
     [RegularExpression("^((\\+\\d{2}\\s)?\\(\\d{2}\\)\\s?\\d{4}\\d?\\-\\d{4})?$", ErrorMessage = "Informe um Telefone válido!")]
-    [Display(Name = "Telefone")]
+    [Display(Name = "Phones")]
     public List<int>? Phones { get; set; }
     //public IAccount[]? Accounts { get; set; }
 
-
-    [DisplayFormat(DataFormatString	="{0:dd-MM-yyyy}")]
-    [Display(Name = "Criado_em")]
+    [DisplayFormat(DataFormatString	="{dd-MM-yyyy}")]
+    [Display(Name = "CreatedAt")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    [DisplayFormat(DataFormatString	="{0:dd-MM-yyyy}")]
-    [Display(Name = "Atualizado_em")]
+    [DisplayFormat(DataFormatString	="{dd-MM-yyyy}")]
+    [Display(Name = "UpdatedAt")]
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public bool IsActive { get; set; }
