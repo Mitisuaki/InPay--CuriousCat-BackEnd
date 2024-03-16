@@ -1,10 +1,11 @@
+namespace InPay__CuriousCat_BackEnd.Domain.DTOs.User;
+
 using System.ComponentModel.DataAnnotations;
 using InPay__CuriousCat_BackEnd.Domain.Models;
 using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 
-namespace InPay__CuriousCat_BackEnd.Domain.DTOs.User;
 
-public class UserUpdateDTO: Entity
+public class UserUpdateDTO : Entity
 {
     [Required(AllowEmptyStrings = false, ErrorMessage="Informção de Nickname obrigatório!")]
     [StringLength(20, MinimumLength = 5)]
