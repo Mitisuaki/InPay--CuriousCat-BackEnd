@@ -24,7 +24,7 @@ public class User : Entity
     [RegularExpression("^((\\+\\d{2}\\s)?\\(\\d{2}\\)\\s?\\d{4}\\d?\\-\\d{4})?$", ErrorMessage = "Informe um Telefone válido!")]
     [Display(Name = "Telefone")]
     public List<int>? Phones { get; set; }
-    public IAccount[]? Accounts { get; set; }
+    //public IAccount[]? Accounts { get; set; }
 
 
     [DisplayFormat(DataFormatString	="{0:dd-MM-yyyy}")]
