@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Projects\\Imã Tech - Sharp Coders\\HackaDev\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj": {}
+    "D:\\Projetos\\SharpCoders\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj": {}
   },
   "projects": {
-    "E:\\Projects\\Imã Tech - Sharp Coders\\HackaDev\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj": {
+    "D:\\Projetos\\SharpCoders\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Projects\\Imã Tech - Sharp Coders\\HackaDev\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj",
+        "projectUniqueName": "D:\\Projetos\\SharpCoders\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj",
         "projectName": "InPay--CuriousCat-BackEnd",
-        "projectPath": "E:\\Projects\\Imã Tech - Sharp Coders\\HackaDev\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj",
-        "packagesPath": "C:\\Users\\etiel\\.nuget\\packages\\",
-        "outputPath": "E:\\Projects\\Imã Tech - Sharp Coders\\HackaDev\\InPay--CuriousCat-BackEnd\\obj\\",
+        "projectPath": "D:\\Projetos\\SharpCoders\\InPay--CuriousCat-BackEnd\\InPay--CuriousCat-BackEnd.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\Projetos\\SharpCoders\\InPay--CuriousCat-BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\etiel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -53,6 +53,10 @@
               "target": "Package",
               "version": "[8.0.3, )"
             },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
@@ -77,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
