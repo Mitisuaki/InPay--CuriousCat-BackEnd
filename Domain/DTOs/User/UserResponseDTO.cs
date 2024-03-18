@@ -18,7 +18,7 @@ public class UserResponseDTO : Entity
     [Display(Name = "Email")]
     public string? Email { get; set; }
 
-    [RegularExpression("^((\\+\\d{2}\\s)?\\(\\d{2}\\)\\s?\\d{4}\\d?\\-\\d{4})?$", ErrorMessage = "Informe um Telefone válido!")]
+    //[RegularExpression("^((\\+\\d{2}\\s)?\\(\\d{2}\\)\\s?\\d{4}\\d?\\-\\d{4})?$", ErrorMessage = "Informe um Telefone válido!")]
     [Display(Name = "Phones")]
     public List<int>? Phones { get; set; }
 
