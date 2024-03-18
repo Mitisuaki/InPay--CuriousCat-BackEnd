@@ -31,6 +31,7 @@ public class UserController: ControllerBase
 
    [HttpGet("{id:int}")]
    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+   [ProducesResponseType(StatusCodes.Status400BadRequest)]
    public IActionResult GetUserById(int id) {
       var UserFind = _appDbContext.Users.Find(id);
 
@@ -43,6 +44,8 @@ public class UserController: ControllerBase
 
 
    [HttpPost]
+   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+   [ProducesResponseType(StatusCodes.Status400BadRequest)]
    public IActionResult AddUsers(UserResponseDTO newUser) {
 
      var UserAdd = _mapper.Map<User>(newUser);
@@ -55,6 +58,8 @@ public class UserController: ControllerBase
    } 
 
    [HttpPut("{id:int}")]
+   [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+   [ProducesResponseType(StatusCodes.Status400BadRequest)]
    public async Task<IActionResult> AlteredUsers(int id, UserResponseDTO user) {
       
       if(id != user.id) 
