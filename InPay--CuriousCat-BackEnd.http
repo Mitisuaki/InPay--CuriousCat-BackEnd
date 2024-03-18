@@ -1,6 +1,26 @@
 @InPay__CuriousCat_BackEnd_HostAddress = http://localhost:5066
 
-GET {{InPay__CuriousCat_BackEnd_HostAddress}}/weatherforecast/
+###
+
+@name = GetAllUsers
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
 Accept: application/json
 
 ###
+
+@name = AddUser
+POST {{InPay__CuriousCat_BackEnd_HostAddress}}/users
+Content-Type: application/json
+
+{
+    "NickName": "Fulano da Silva",
+    "Password": "123456",
+    "Email": "fulano@gmail.com",
+    "Phones": [ 
+        81985859696,
+        81963635252
+    ],
+    "IsActive:": true,
+    "IsAdmin": false,
+    "RecoveryCode": "yes"
+}
