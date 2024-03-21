@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using InPay__CuriousCat_BackEnd.Domain.Models;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.User;
-using InPay__CuriousCat_BackEnd.Domain.Services;
+
 
 
 
@@ -12,14 +12,18 @@ namespace InPay__CuriousCat_BackEnd.Controllers;
 [Route("users")]
 public class UserController() : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("signin")]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create(UserCreateDTO user)
+    public void CreateUser(UserCreateDTO user)
     {
-        // var userMapped = UserServices.CreateUser(user);
+        // var userToSave = _mapper.Map<User>(user);
+        // var result = _InpayDbContext.Users.Add(userToSave);
+        // _InpayDbContext.SaveChanges();
+        // var userSaved = result.Entity;
 
-        return Created();
+
+        // return CreatedAtAction(nameof(CreateUser), new { userSaved.Id }, userSaved);
     }
 }
 

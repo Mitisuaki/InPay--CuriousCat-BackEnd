@@ -1,7 +1,6 @@
 using AutoMapper;
 using InPay__CuriousCat_BackEnd.Domain.Db;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.User;
-using InPay__CuriousCat_BackEnd.Domain.Models;
 
 namespace InPay__CuriousCat_BackEnd.Domain.Services;
 
@@ -14,11 +13,9 @@ public class UserServices(IMapper mapper, InpayDbContext dbContext)
     {
 
     }
-    public User CreateUser(UserCreateDTO user)
+    public void CreateUser(UserCreateDTO user)
     {
-        var userMapped = _mapper.Map<User>(user);
 
-        return userMapped;
 
     }
     public void Login()

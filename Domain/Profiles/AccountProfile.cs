@@ -9,8 +9,8 @@ public class AccountProfile : Profile
 {
     public AccountProfile()
     {
-        CreateMap<IAccount, AccFinanceDataResponseDTO>();
-        CreateMap<AccPF, AccPFBasicDataResponseDTO>();
-        CreateMap<AccPJ, AccPJBasicDataResponseDTO>();
+        CreateMap<Account, AccFinanceDataResponseDTO>();
+        CreateMap<Account, AccPFBasicDataResponseDTO>();
+        CreateMap<Account, AccPJBasicDataResponseDTO>();
     }
 }

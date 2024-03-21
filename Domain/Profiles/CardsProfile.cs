@@ -9,6 +9,6 @@ public class CardsProfile : Profile
     public CardsProfile()
     {
         CreateMap<Card, CardResponseDTO>();
-        CreateMap<VirtualCard, VirtualCardResponseDTO>();
+        CreateMap<Card, VirtualCardResponseDTO>();
     }
 }
