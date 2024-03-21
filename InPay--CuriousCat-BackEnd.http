@@ -4,3 +4,13 @@ GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
 Accept: application/json
 
 ###
+
+Post {{InPay__CuriousCat_BackEnd_HostAddress}}/users
+Content-Type: Accept: application/json
+Accept: application/json
+
+{
+
+}
+
+###
