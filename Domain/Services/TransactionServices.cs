@@ -1,6 +1,6 @@
 namespace InPay__CuriousCat_BackEnd.Domain.Services;
 
-public class UC_Transaction
+public class TransactionServices
 {
     public void PerformTransaction()
     {
