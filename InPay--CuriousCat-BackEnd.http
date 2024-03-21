@@ -1,6 +1,6 @@
 @InPay__CuriousCat_BackEnd_HostAddress = http://localhost:5066
 
-GET {{InPay__CuriousCat_BackEnd_HostAddress}}/weatherforecast/
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
 Accept: application/json
 
 ###

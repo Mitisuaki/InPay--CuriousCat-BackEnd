@@ -1,4 +1,4 @@
-namespace InPay__CuriousCat_BackEnd.MiddleWares;
+namespace InPay__CuriousCat_BackEnd.Domain.MiddleWares;
 
 public class UserTokenVerification
 {
