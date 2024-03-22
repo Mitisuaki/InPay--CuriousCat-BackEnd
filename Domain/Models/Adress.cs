@@ -16,7 +16,7 @@ public class Adress : Entity
     public bool IsCurrentAdress { get; set; }
     public bool IsACompanyAdress { get; set; }
 
-    [ForeignKey("AccId")]
-    public int? AccId { get; set; }
+    [ForeignKey("AccountId")]
+    public int? AccountId { get; set; }
     public virtual Account? Account { get; set; }
 }

@@ -5,12 +5,30 @@ Accept: application/json
 
 ###
 
-Post {{InPay__CuriousCat_BackEnd_HostAddress}}/users
-Content-Type: Accept: application/json
-Accept: application/json
+Post {{InPay__CuriousCat_BackEnd_HostAddress}}/register
+Content-Type: application/json
+Accept: application/json   
 
 {
-
+  "userName": "Teste",
+  "email": "teste@teste.com",
+  "phoneNumber": "+55 41 9 9999-9999",
+  "password": "Teste@123",
+  "passwordConfirmation": "Teste@123",
+  "recoveryCode": "123456",
+  "antiPishingCode": "87654321"
 }
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/1274464d-c1d3-42fc-a84e-b48be8862382
+Accept: application/json
 
 ###
+Post {{InPay__CuriousCat_BackEnd_HostAddress}}/login
+Content-Type: application/json
+Accept: application/json   
+
+{
+  "email": "teste@teste.com",
+  "password": "Teste@123"
+}

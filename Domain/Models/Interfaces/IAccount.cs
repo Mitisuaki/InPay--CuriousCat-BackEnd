@@ -44,20 +44,20 @@ public class Account : Entity, IAccount
     public int AccNumber { get; set; }
     public int Agency { get; set; }
     public string AccNickName { get; set; } = null!;
-    public List<Card>? Cards { get; set; }
+    public virtual List<Card>? Cards { get; set; }
     public double Balance { get; set; }
     public double AccLimit { get; set; }
     public double ConfiguredAccLimit { get; set; }
     public double AvailableLimit { get; set; }
     public double TransactionLimit { get; set; }
-    public List<AccTransaction>? Transactions { get; set; }
+    public virtual List<AccTransaction>? Transactions { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public bool IsActive { get; set; }
-    public List<Adress>? AdressesHistory { get; set; }
+    public virtual List<Adress>? AdressesHistory { get; set; }
     public string? AccRecoveryCode { get; set; }
 
     [ForeignKey("UserId")]
-    public int UserId { get; set; }
+    public string UserId { get; set; } = null!;
     public virtual User User { get; set; } = null!;
 }

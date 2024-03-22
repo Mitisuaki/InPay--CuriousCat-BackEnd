@@ -12,9 +12,13 @@ public class AccTransaction : Entity
     public int Date { get; set; }
     public int Value { get; set; }
 
-    [ForeignKey("AccId")]
-    public int AccID { get; set; }
+    [ForeignKey("AccountId")]
+    public int AccountId { get; set; }
     public virtual Account? Account { get; set; }
+
+    [ForeignKey("AccountToOrFromId")]
+    public int? AccountToOrFromId { get; set; }
+    public virtual Account? AccountToOrFrom { get; set; }
 
 }
 

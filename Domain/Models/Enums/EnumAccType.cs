@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace InPay__CuriousCat_BackEnd.Domain.Models.Enums;
 
 public enum EnumAccType

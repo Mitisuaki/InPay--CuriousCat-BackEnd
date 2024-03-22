@@ -5,6 +5,6 @@ namespace InPay__CuriousCat_BackEnd.Domain.Models;
 
 public class Entity
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Key]
     public int Id { get; set; }
 }
