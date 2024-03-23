@@ -126,18 +126,70 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
 
         return _mapper.Map<UserCreateResponseDTO>(user);
     }
-    public void UpdatePassword()
+    public async Task UpdatePassword(string id, UserUpdatePWDTO userUpdatePWDTO)
     {
+        var userToUpdatePW = await _userManager.FindByIdAsync(id);
+
+        if (userToUpdatePW == null || !userToUpdatePW.IsActive)
+            throw new NotFoundException("User not Found");
+
+        var result = await _userManager.ChangePasswordAsync(userToUpdatePW, userUpdatePWDTO.CurrentPassword, userUpdatePWDTO.NewPassword);
+
+        if (!result.Succeeded)
+            throw new BadHttpRequestException("User current password doesn't match");
 
     }
-    public void ForgotPassWord()
+    public async Task ForgotPassWord(string id, UserForgotPWDTO userForgotPWDTO)
     {
+        var userToResetPW = await _userManager.FindByIdAsync(id);
 
+        if (userToResetPW == null || !userToResetPW.IsActive)
+            throw new NotFoundException("User not Found");
+
+        if (userToResetPW.RecoveryCode != userForgotPWDTO.RecoveryCode)
+        {
+            throw new BadHttpRequestException("User RecoveryCode doesn't match ");
+        }
+
+        var resultRemovePW = await _userManager.RemovePasswordAsync(userToResetPW);
+        var resultAddNewPW = await _userManager.AddPasswordAsync(userToResetPW, userForgotPWDTO.NewPassword);
+
+
+        if (!resultRemovePW.Succeeded || !resultAddNewPW.Succeeded)
+            throw new ServerProblemException("We encountered an error trying to set your new password, please try again later");
 
     }
-    public void DeactivateUser()
+    public async Task DeactivateUser(string id)
     {
+        var userToDeactivate = await _userManager.FindByIdAsync(id);
 
+        if (userToDeactivate == null)
+            throw new NotFoundException("User not Found");
+        if (!userToDeactivate.IsActive)
+            throw new NotFoundException("User Already Deactivated");
+
+        userToDeactivate.IsActive = false;
+
+        var result = await _userManager.UpdateAsync(userToDeactivate);
+
+        if (!result.Succeeded)
+            throw new ServerProblemException("We encountered an error trying to delete this user account, please try again later");
+    }
+    public async Task ReactivateUser(string id)
+    {
+        var userToReactivate = await _userManager.FindByIdAsync(id);
+
+        if (userToReactivate == null)
+            throw new NotFoundException("User not Found");
+        if (userToReactivate.IsActive)
+            throw new NotFoundException("User Already Active");
+
+        userToReactivate.IsActive = true;
+
+        var result = await _userManager.UpdateAsync(userToReactivate);
+
+        if (!result.Succeeded)
+            throw new ServerProblemException("We encountered an error trying undelete this user account, please try again later");
     }
     public string GenUserLoginToken(User user)
     {

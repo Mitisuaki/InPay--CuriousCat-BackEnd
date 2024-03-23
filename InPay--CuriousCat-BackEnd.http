@@ -94,3 +94,43 @@ Authorization: Bearer {{authTOkenAdmin}}
 }
 
 ###
+
+PUT  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40/changePassword
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "currentPassword": "Teste@123",
+  "newPassword": "Teste@123Atualizado",
+  "newPasswordConfirmation": "Teste@123Atualizado"
+}
+
+###
+
+PUT  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40/forgotPassword
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "recoveryCode": "123456",
+  "newPassword": "Teste@123NewPassword",
+  "newPasswordConfirmation": "Teste@123NewPassword"
+}
+
+###
+
+DELETE   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40/deleteUser
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
+PUT    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40/undeleteUser
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+###

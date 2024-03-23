@@ -4,10 +4,8 @@ using InPay__CuriousCat_BackEnd.Domain.DTOs.User;
 
 namespace InPay__CuriousCat_BackEnd.Domain.MiddleWares;
 
-public class TokensVerifications(IConfiguration configuration)
+public class TokensVerifications()
 {
-    private readonly IConfiguration _configuration = configuration;
-
     public UserTokenVerificationResponseDTO UserTokenVerification(string userToken)
     {
         string token = userToken.Split(" ")[1];

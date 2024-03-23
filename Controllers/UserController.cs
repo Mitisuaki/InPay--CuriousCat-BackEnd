@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using System.Security.Claims;
 using InPay__CuriousCat_BackEnd.Domain.Models;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 
 
@@ -16,7 +17,7 @@ namespace InPay__CuriousCat_BackEnd.Controllers;
 
 
 [ApiController]
-[Route("users")]
+[Route("users", Name = "User Rountes")]
 public class UserController : ControllerBase
 {
     private readonly UserServices _userService;
@@ -28,7 +29,7 @@ public class UserController : ControllerBase
         _tokensVerifications = tokensVerifications;
     }
 
-    [HttpPost("/register")]
+    [HttpPost("/register", Name = "Creater New User")]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(UserCreateResponseDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -176,10 +177,10 @@ public class UserController : ControllerBase
 
     [HttpPatch("/user/{id}")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserCreateResponseDTO>))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateUser(string id, UserPatchDTO userPatchDTO)
+    public async Task<IActionResult> PatchUser(string id, UserPatchDTO userPatchDTO)
     {
         try
         {
@@ -202,6 +203,153 @@ public class UserController : ControllerBase
         catch (UnauthorizedAccessException e)
         {
             return Unauthorized(e.Message);
+        }
+    }
+    [HttpPut("/user/{id}/changePassword")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateUserPW(string id, UserUpdatePWDTO userUpdatePWDTO)
+    {
+        try
+        {
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.UserTokenVerification(authorization!);
+
+            if (tokenClaims.Id != id && !tokenClaims.IsAdmin)
+                throw new UnauthorizedAccessException("You're not authorized to acess this content");
+
+
+            await _userService.UpdatePassword(id, userUpdatePWDTO);
+
+            return Ok();
+
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+
+        catch (BadHttpRequestException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    [HttpPut("/user/{id}/forgotPassword")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateUserPW(string id, UserForgotPWDTO userForgotPWDTO)
+    {
+        try
+        {
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.UserTokenVerification(authorization!);
+
+            if (tokenClaims.Id != id && !tokenClaims.IsAdmin)
+                throw new UnauthorizedAccessException("You're not authorized to acess this content");
+
+
+            await _userService.ForgotPassWord(id, userForgotPWDTO);
+
+            return Ok();
+
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+        catch (BadHttpRequestException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (ServerProblemException e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
+    [HttpDelete("/user/{id}/deleteUser")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> DeactivateUser(string id)
+    {
+        try
+        {
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.UserTokenVerification(authorization!);
+
+            if (tokenClaims.Id != id && !tokenClaims.IsAdmin)
+                throw new UnauthorizedAccessException("You're not authorized to acess this content");
+
+
+            await _userService.DeactivateUser(id);
+
+            return Ok();
+
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+        catch (ServerProblemException e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
+    [HttpPut("/user/{id}/undeleteUser")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> ReactivateUser(string id)
+    {
+        try
+        {
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.UserTokenVerification(authorization!);
+
+            if (!tokenClaims.IsAdmin)
+                throw new UnauthorizedAccessException("You're not authorized to acess this content");
+
+
+            await _userService.ReactivateUser(id);
+
+            return Ok();
+
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+        catch (ServerProblemException e)
+        {
+            return StatusCode(500, e.Message);
         }
     }
 }
