@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 using Microsoft.AspNetCore.Identity;
 

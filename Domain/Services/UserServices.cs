@@ -7,15 +7,17 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using InPay__CuriousCat_BackEnd.Domain.Db;
 
 namespace InPay__CuriousCat_BackEnd.Domain.Services;
 
-public class UserServices(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+public class UserServices(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration, InpayDbContext inpayDbContext)
 {
     private readonly IMapper _mapper = mapper;
     private readonly UserManager<User> _userManager = userManager;
     private readonly SignInManager<User> _signInManager = signInManager;
     private readonly IConfiguration _configuration = configuration;
+    private readonly InpayDbContext _inpayDbContext = inpayDbContext;
 
     public async Task<UserCreateResponseDTO> CreateUser(UserCreateDTO userDto)
     {
@@ -39,17 +41,6 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
         return _mapper.Map<UserCreateResponseDTO>(userCreated);
 
     }
-    public async Task<UserCreateResponseDTO> GetUserInfoById(string Id)
-    {
-
-        var result = await _userManager.FindByIdAsync(Id);
-
-        if (result == null)
-            throw new NotFoundException("User not Found");
-
-
-        return _mapper.Map<UserCreateResponseDTO>(result);
-    }
     public async Task<UserLoginResponseDTO> LoginUser(UserLoginDTO userDto)
     {
         var userToLog = await _userManager.FindByEmailAsync(userDto.Email);
@@ -70,6 +61,27 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
         userLogged.UserToken = loginTk;
 
         return userLogged;
+    }
+    public async Task<UserCreateResponseDTO> GetUserInfoById(string Id)
+    {
+
+        var result = await _userManager.FindByIdAsync(Id);
+
+        if (result == null || !result.IsActive)
+            throw new NotFoundException("User not Found");
+
+
+        return _mapper.Map<UserCreateResponseDTO>(result);
+    }
+    public IEnumerable<UserCreateResponseDTO> ListAllUsers()
+    {
+
+        var users = _inpayDbContext.Users.Where(u => u.IsActive);
+
+        var result = users.Select(_mapper.Map<UserCreateResponseDTO>);
+
+        return result;
+
     }
     public void DeactivateUser()
     {

@@ -1,16 +1,15 @@
 @InPay__CuriousCat_BackEnd_HostAddress = http://localhost:5066
 
-
 Post {{InPay__CuriousCat_BackEnd_HostAddress}}/register
 Content-Type: application/json
 Accept: application/json   
 
 {
-  "userName": "Teste4343",
-  "email": "teste2323@teste.com",
+  "userName": "Miti",
+  "email": "miti@miti.com",
   "phoneNumber": "+55 41 9 9999-9999",
-  "password": "Teste@123",
-  "passwordConfirmation": "Teste@123",
+  "password": "Miti@123456",
+  "passwordConfirmation": "Miti@123456",
   "recoveryCode": "123456",
   "antiPishingCode": "87654321"
 }
@@ -21,14 +20,19 @@ Content-Type: application/json
 Accept: application/json   
 
 {
-  "email": "teste@teste.com",
-  "password": "Teste@123"
+  "email": "miti@miti.com",
+  "password": "Miti@123456"
 }
 
 ###
 
 GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IlRlc3RlIiwiSWQiOiIxMjc0NDY0ZC1jMWQzLTQyZmMtYTg0ZS1iNDhiZTg4NjIzODIiLCJJc0FkbWluIjoiRmFsc2UiLCJleHAiOjE3MTExNzQ4MTZ9.g2emZMLKiCKMjzaIX9JJJX-sCessDLYb_LjKbBYOaME
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Ik1pdGkiLCJJZCI6IjliZGM2OTA1LTQyNmItNDQ3YS1iYjc2LTljYjEyYWIxZDc2MiIsIklzQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzExMTc4NTIxfQ.EncEEz15NhFNpqKVZCdAwYgEG1W0W7vMt2ejg_ywFBk
+
+###
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Ik1pdGkiLCJJZCI6IjliZGM2OTA1LTQyNmItNDQ3YS1iYjc2LTljYjEyYWIxZDc2MiIsIklzQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzExMTc5NzgyfQ.-4tG04uI_4I0KM_XgLtF8JVWpdZt8uvb7c3H9yQFp0o
 
 ###
