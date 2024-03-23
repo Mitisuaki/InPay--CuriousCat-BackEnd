@@ -1,6 +1,6 @@
-namespace InPay__CuriousCat_BackEnd.Domain.Models.Utilities;
+namespace InPay__CuriousCat_BackEnd.Domain.Services;
 
-public class UC_Account
+public class AccountServices
 {
     public void DeleteAccRequest()
     {

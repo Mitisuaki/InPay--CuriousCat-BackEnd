@@ -1,6 +1,6 @@
-namespace InPay__CuriousCat_BackEnd.Domain.Models.Utilities;
+namespace InPay__CuriousCat_BackEnd.Domain.Services;
 
-public class UC_AdminFunctions
+public class AdminFunctionsServices
 {
     public void EditAccPermisions()
     {

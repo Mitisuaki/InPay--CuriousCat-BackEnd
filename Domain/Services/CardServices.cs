@@ -1,6 +1,6 @@
-namespace InPay__CuriousCat_BackEnd.Domain.Models.Utilities;
+namespace InPay__CuriousCat_BackEnd.Domain.Services;
 
-public class UC_Card
+public class CardServices
 {
     public void CreateCard()
     {

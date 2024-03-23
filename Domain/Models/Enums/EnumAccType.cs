@@ -2,8 +2,8 @@ using System.ComponentModel;
 
 namespace InPay__CuriousCat_BackEnd.Domain.Models.Enums;
 
-public enum EnumTransactionDirection
+public enum EnumAccType
 {
-    IN,
-    OUT
+    PESSOA_FISICA,
+    PESSOA_JURIDICA
 }
