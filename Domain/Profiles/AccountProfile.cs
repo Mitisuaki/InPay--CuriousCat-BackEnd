@@ -1,5 +1,5 @@
 using AutoMapper;
-using InPay__CuriousCat_BackEnd.Domain.DTOs.Account;
+using InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 using InPay__CuriousCat_BackEnd.Domain.Models;
 using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 

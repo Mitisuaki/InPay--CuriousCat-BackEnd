@@ -72,7 +72,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
 
         return result;
     }
-    public async Task<UserCreateResponseDTO> GetUserBasicInfoById(string Id)
+    public async Task<UserGetInfoResponseDTO> GetUserBasicInfoById(string Id)
     {
 
         var result = await _userManager.FindByIdAsync(Id);
@@ -81,7 +81,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
             throw new NotFoundException("User not Found");
 
 
-        return _mapper.Map<UserCreateResponseDTO>(result);
+        return _mapper.Map<UserGetInfoResponseDTO>(result);
     }
     public IEnumerable<UserCreateResponseDTO> ListAllUsers()
     {
