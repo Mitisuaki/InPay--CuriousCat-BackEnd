@@ -1,17 +1,13 @@
 @InPay__CuriousCat_BackEnd_HostAddress = http://localhost:5066
 
-GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
-Accept: application/json
-
-###
 
 Post {{InPay__CuriousCat_BackEnd_HostAddress}}/register
 Content-Type: application/json
 Accept: application/json   
 
 {
-  "userName": "Teste",
-  "email": "teste@teste.com",
+  "userName": "Teste4343",
+  "email": "teste2323@teste.com",
   "phoneNumber": "+55 41 9 9999-9999",
   "password": "Teste@123",
   "passwordConfirmation": "Teste@123",
@@ -20,10 +16,6 @@ Accept: application/json
 }
 ###
 
-GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/1274464d-c1d3-42fc-a84e-b48be8862382
-Accept: application/json
-
-###
 Post {{InPay__CuriousCat_BackEnd_HostAddress}}/login
 Content-Type: application/json
 Accept: application/json   
@@ -32,3 +24,11 @@ Accept: application/json
   "email": "teste@teste.com",
   "password": "Teste@123"
 }
+
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6IlRlc3RlIiwiSWQiOiIxMjc0NDY0ZC1jMWQzLTQyZmMtYTg0ZS1iNDhiZTg4NjIzODIiLCJJc0FkbWluIjoiRmFsc2UiLCJleHAiOjE3MTExNzQ4MTZ9.g2emZMLKiCKMjzaIX9JJJX-sCessDLYb_LjKbBYOaME
+
+###

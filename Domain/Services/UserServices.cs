@@ -20,10 +20,19 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
     public async Task<UserCreateResponseDTO> CreateUser(UserCreateDTO userDto)
     {
         var user = _mapper.Map<User>(userDto);
+        var checkIfUserExists = await _userManager.FindByEmailAsync(user.Email!);
+
+        if (checkIfUserExists != null)
+            throw new AlreadyExistsException("This email already exists, please provide a new one");
+        var checkIfEmailExists = await _userManager.FindByNameAsync(user.UserName!);
+
+        if (checkIfEmailExists != null)
+            throw new AlreadyExistsException("This userName already exists, please provide a new one");
+
         var result = await _userManager.CreateAsync(user, userDto.Password);
 
         if (!result.Succeeded)
-            throw new Exception(result.Errors.ToString());
+            throw new ServerProblemException("We encountered an error trying to create you user, please try again later");
 
         var userCreated = await _userManager.FindByEmailAsync(user.Email!);
 
@@ -32,6 +41,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
     }
     public async Task<UserCreateResponseDTO> GetUserInfoById(string Id)
     {
+
         var result = await _userManager.FindByIdAsync(Id);
 
         if (result == null)
@@ -102,7 +112,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
         Claim[] claims = [
             new("Username", user.UserName!),
             new("Id", user.Id),
-            new("LoginTimeStamp", DateTime.UtcNow.ToString())
+            new("IsAdmin", user.IsAdmin.ToString())
         ];
 
         var tkSymKey = _configuration.GetValue<string>("AppSettings:TkSymKey");

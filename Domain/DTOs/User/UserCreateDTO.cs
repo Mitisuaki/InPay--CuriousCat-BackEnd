@@ -16,7 +16,7 @@ public class UserCreateDTO
     public string PhoneNumber { get; set; } = null!;
 
     [Required]
-    [DataType(DataType.Password)]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$", ErrorMessage = "Your password doen not meet the requirements")]
     public string Password { get; set; } = null!;
 
     [Required]

@@ -4,6 +4,7 @@ using InPay__CuriousCat_BackEnd.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,6 +29,8 @@ builder.Services.AddSwaggerGen();
 // Automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Services.AddSecurityLayer(builder.Configuration.GetValue<string>("AppSettings:TkSymKey")!);
 builder.Services.AddServicesLayer();
 
 var app = builder.Build();
@@ -40,6 +43,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
