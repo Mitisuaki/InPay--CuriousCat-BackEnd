@@ -8,6 +8,7 @@ using InPay__CuriousCat_BackEnd.Domain.MiddleWares;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using System.Security.Claims;
+using InPay__CuriousCat_BackEnd.Domain.Models;
 
 
 
@@ -77,6 +78,7 @@ public class UserController : ControllerBase
     [HttpGet("/user/{Id}")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserCreateResponseDTO))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetUserInfoById(string Id)
@@ -90,7 +92,13 @@ public class UserController : ControllerBase
                 throw new UnauthorizedAccessException("You're not authorized to acess this content");
 
 
-            var userFound = await _userService.GetUserInfoById(Id);
+            if (tokenClaims.IsAdmin)
+            {
+                var userFoundByAdmin = await _userService.GetUserInfoById(Id);
+                return Ok(userFoundByAdmin);
+            }
+
+            var userFound = await _userService.GetUserBasicInfoById(Id);
 
             return Ok(userFound);
 
@@ -123,6 +131,68 @@ public class UserController : ControllerBase
             var users = _userService.ListAllUsers();
 
             return Ok(users);
+
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+    }
+
+    [HttpPut("/user/{id}")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserCreateResponseDTO>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateUser(string id, UserUpdateDTO userUpdateDTO)
+    {
+        try
+        {
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.UserTokenVerification(authorization!);
+
+            if (tokenClaims.Id != id && !tokenClaims.IsAdmin)
+                throw new UnauthorizedAccessException("You're not authorized to acess this content");
+
+
+            var userUpdated = await _userService.UpdateUser(id, userUpdateDTO);
+
+            return Ok(userUpdated);
+
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+    }
+
+    [HttpPatch("/user/{id}")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserCreateResponseDTO>))]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateUser(string id, UserPatchDTO userPatchDTO)
+    {
+        try
+        {
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.UserTokenVerification(authorization!);
+
+            if (tokenClaims.Id != id && !tokenClaims.IsAdmin)
+                throw new UnauthorizedAccessException("You're not authorized to acess this content");
+
+
+            var userUpdated = await _userService.PatchUser(id, userPatchDTO);
+
+            return Ok(userUpdated);
 
         }
         catch (NotFoundException e)

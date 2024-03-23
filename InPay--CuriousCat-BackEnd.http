@@ -1,4 +1,6 @@
 @InPay__CuriousCat_BackEnd_HostAddress = http://localhost:5066
+@authTOkenNormalUser = {{loginNormalUser.response.body.userToken}}
+@authTOkenAdmin = {{loginADmin.response.body.userToken}}
 
 Post {{InPay__CuriousCat_BackEnd_HostAddress}}/register
 Content-Type: application/json
@@ -13,11 +15,25 @@ Accept: application/json
   "recoveryCode": "123456",
   "antiPishingCode": "87654321"
 }
+
 ###
 
+# @name loginNormalUser
 Post {{InPay__CuriousCat_BackEnd_HostAddress}}/login
 Content-Type: application/json
-Accept: application/json   
+Accept: application/json
+
+{
+  "email": "teste@teste.com",
+  "password": "Teste@123"
+}
+
+###
+
+# @name loginADmin
+Post {{InPay__CuriousCat_BackEnd_HostAddress}}/login
+Content-Type: application/json
+Accept: application/json
 
 {
   "email": "miti@miti.com",
@@ -26,13 +42,55 @@ Accept: application/json
 
 ###
 
-GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/1274464d-c1d3-42fc-a84e-b48be8862382
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Ik1pdGkiLCJJZCI6IjliZGM2OTA1LTQyNmItNDQ3YS1iYjc2LTljYjEyYWIxZDc2MiIsIklzQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzExMTc4NTIxfQ.EncEEz15NhFNpqKVZCdAwYgEG1W0W7vMt2ejg_ywFBk
+Authorization: Bearer {{authTOkenNormalUser}}
 
 ###
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+Accept: application/json
+Authorization: Bearer {{authTOkenNormalUser}}
+
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+Accept: application/json
+Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
 GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VybmFtZSI6Ik1pdGkiLCJJZCI6IjliZGM2OTA1LTQyNmItNDQ3YS1iYjc2LTljYjEyYWIxZDc2MiIsIklzQWRtaW4iOiJUcnVlIiwiZXhwIjoxNzExMTc5NzgyfQ.-4tG04uI_4I0KM_XgLtF8JVWpdZt8uvb7c3H9yQFp0o
+Authorization: Bearer {{authTOkenNormalUser}}
+
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
+Accept: application/json
+Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
+Put {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "userName": "TesteAtualizado",
+  "email": "testeAtualizado@teste.com",
+  "phoneNumber": "+55 41 9 9999-9999"
+}
+
+###
+
+PATCH  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "userName": "TestePatched"
+}
 
 ###

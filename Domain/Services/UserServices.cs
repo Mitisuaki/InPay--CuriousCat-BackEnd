@@ -23,11 +23,10 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
     {
         var user = _mapper.Map<User>(userDto);
         var checkIfUserExists = await _userManager.FindByEmailAsync(user.Email!);
-
         if (checkIfUserExists != null)
             throw new AlreadyExistsException("This email already exists, please provide a new one");
-        var checkIfEmailExists = await _userManager.FindByNameAsync(user.UserName!);
 
+        var checkIfEmailExists = await _userManager.FindByNameAsync(user.UserName!);
         if (checkIfEmailExists != null)
             throw new AlreadyExistsException("This userName already exists, please provide a new one");
 
@@ -45,7 +44,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
     {
         var userToLog = await _userManager.FindByEmailAsync(userDto.Email);
 
-        if (userToLog == null)
+        if (userToLog == null || !userToLog.IsActive)
             throw new NotFoundException("User not found");
 
 
@@ -62,7 +61,18 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
 
         return userLogged;
     }
-    public async Task<UserCreateResponseDTO> GetUserInfoById(string Id)
+    public async Task<User> GetUserInfoById(string Id)
+    {
+
+        var result = await _userManager.FindByIdAsync(Id);
+
+        if (result == null || !result.IsActive)
+            throw new NotFoundException("User not Found");
+
+
+        return result;
+    }
+    public async Task<UserCreateResponseDTO> GetUserBasicInfoById(string Id)
     {
 
         var result = await _userManager.FindByIdAsync(Id);
@@ -83,39 +93,49 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
         return result;
 
     }
-    public void DeactivateUser()
+    public async Task<UserCreateResponseDTO> PatchUser(string id, UserPatchDTO userPatchDTO)
     {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null || !user.IsActive)
+            throw new NotFoundException("User not Found");
+
+        user.UserName = userPatchDTO.UserName ?? user.UserName;
+        user.Email = userPatchDTO.Email ?? user.Email;
+        user.PhoneNumber = userPatchDTO.PhoneNumber ?? user.PhoneNumber;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _userManager.UpdateAsync(user);
+
+        return _mapper.Map<UserCreateResponseDTO>(user);
 
     }
-    public void Logoff()
+    public async Task<UserCreateResponseDTO> UpdateUser(string id, UserUpdateDTO userUpdateDTO)
     {
+        var user = await _userManager.FindByIdAsync(id);
 
-    }
-    public void AddPhones()
-    {
+        if (user == null || !user.IsActive)
+            throw new NotFoundException("User not Found");
 
-    }
-    public void UpdatePhones()
-    {
+        user.UserName = userUpdateDTO.UserName;
+        user.Email = userUpdateDTO.Email;
+        user.PhoneNumber = userUpdateDTO.PhoneNumber;
+        user.UpdatedAt = DateTime.UtcNow;
 
-    }
-    public void UpdateEmail()
-    {
+        await _userManager.UpdateAsync(user);
 
-    }
-    public void UpdateAccStatus()
-    {
-
-    }
-    public void UpdateAdress()
-    {
-
+        return _mapper.Map<UserCreateResponseDTO>(user);
     }
     public void UpdatePassword()
     {
 
     }
     public void ForgotPassWord()
+    {
+
+
+    }
+    public void DeactivateUser()
     {
 
     }
