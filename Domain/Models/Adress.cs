@@ -13,10 +13,10 @@ public class Adress : Entity
     public string State { get; set; } = null!;
     public string Country { get; set; } = null!;
     public string Complement { get; set; } = String.Empty;
-    public bool IsCurrentAdress { get; set; }
+    public bool IsCurrentAdress { get; set; } = true;
     public bool IsACompanyAdress { get; set; }
 
     [ForeignKey("AccountId")]
-    public int? AccountId { get; set; }
-    public virtual Account? Account { get; set; }
+    public int AccountId { get; set; }
+    public virtual Account Account { get; set; } = null!;
 }

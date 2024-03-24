@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.User;
 
 
@@ -20,9 +21,18 @@ public class TokensVerifications()
         return response;
 
     }
-    public void AccTokenVerification()
+    public AccTokenVerificationResponseDTO AccTokenVerification(string userToken)
     {
-        // verify if the Token is valid
+        string token = userToken.Split(" ")[1];
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
+        var userId = jwtSecurityToken.Claims.First(claim => claim.Type == "UserId").Value;
+        var accId = jwtSecurityToken.Claims.First(claim => claim.Type == "AccId").Value;
+        var accNumber = jwtSecurityToken.Claims.First(claim => claim.Type == "AccNumber").Value;
+
+        AccTokenVerificationResponseDTO response = new(userId, accId, accNumber);
+
+        return response;
 
     }
     public void AccAPITokenVerification()

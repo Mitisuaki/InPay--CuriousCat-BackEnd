@@ -2,6 +2,9 @@
 @authTOkenNormalUser = {{loginNormalUser.response.body.userToken}}
 @authTOkenAdmin = {{loginADmin.response.body.userToken}}
 
+@authTokenLoggedPFAcc = {{LoginAccPF.response.body.AccToken}}
+@authTokenLoggedPJAcc = {{LoginAccPJ.response.body.AccToken}}
+
 Post {{InPay__CuriousCat_BackEnd_HostAddress}}/register
 Content-Type: application/json
 Accept: application/json   
@@ -132,5 +135,94 @@ PUT    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-32
 Content-Type: application/json
 Accept: application/json   
 Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40/acc/createPFAcc
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "accNickName": "TestePF",
+  "adress": {
+    "cep": "80330-000",
+    "street": "Street",
+    "number": 177,
+    "neighborhood": "Bairro",
+    "city": "Cidade",
+    "state": "Estado",
+    "country": "Pais",
+    "complement": "Complemento"
+  },
+  "accRecoveryCode": "string",
+  "cpf": "123.456.789.12",
+  "name": "Teste User da Silva",
+  "birthDay": "1990-01-22T01:15:52.164Z"
+}
+
+###
+
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40/acc/createPJAcc/
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "accNickName": "TestePJ",
+  "adress": {
+    "cep": "80330-000",
+    "street": "Street",
+    "number": 177,
+    "neighborhood": "Bairro",
+    "city": "Cidade",
+    "state": "Estado",
+    "country": "Pais",
+    "complement": "Complemento"
+  },
+  "accRecoveryCode": "string",
+  "cnpj": "12.345.678/0001-92",
+  "companyName": "Empresa de Teste2",
+  "companyEmail": "empresateste2@empresa.com",
+  "password": "Empresa@teste123",
+  "passwordConfirmation": "Empresa@teste123"
+}
+
+###
+
+# @name LoginAccPF
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/62cf6c8b-4cfb-4489-af7b-83d2bcf7336c/acc/login
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "accNumber": 1235
+}
+
+###
+# @name LoginAccPJ
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/62cf6c8b-4cfb-4489-af7b-83d2bcf7336c/acc/login
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "accNumber": 9263
+}
+
+###
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/62cf6c8b-4cfb-4489-af7b-83d2bcf7336c/acc/1235/balance
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTokenLoggedPFAcc}}
+
+###
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/62cf6c8b-4cfb-4489-af7b-83d2bcf7336c/acc/9263/balance
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTokenLoggedPJAcc}}
 
 ###

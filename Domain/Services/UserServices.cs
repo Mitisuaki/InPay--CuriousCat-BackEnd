@@ -61,7 +61,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
 
         return userLogged;
     }
-    public async Task<User> GetUserInfoById(string Id)
+    public async Task<UserGetInfoResponseDTO> GetUserInfoById(string Id)
     {
 
         var result = await _userManager.FindByIdAsync(Id);
@@ -70,7 +70,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
             throw new NotFoundException("User not Found");
 
 
-        return result;
+        return _mapper.Map<UserGetInfoResponseDTO>(result);
     }
     public async Task<UserGetInfoResponseDTO> GetUserBasicInfoById(string Id)
     {
@@ -166,7 +166,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
         if (userToDeactivate == null)
             throw new NotFoundException("User not Found");
         if (!userToDeactivate.IsActive)
-            throw new NotFoundException("User Already Deactivated");
+            throw new BadHttpRequestException("User Already Deactivated");
 
         userToDeactivate.IsActive = false;
 
@@ -182,7 +182,7 @@ public class UserServices(IMapper mapper, UserManager<User> userManager, SignInM
         if (userToReactivate == null)
             throw new NotFoundException("User not Found");
         if (userToReactivate.IsActive)
-            throw new NotFoundException("User Already Active");
+            throw new BadHttpRequestException("User Already Active");
 
         userToReactivate.IsActive = true;
 

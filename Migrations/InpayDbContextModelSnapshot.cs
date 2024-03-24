@@ -71,7 +71,7 @@ namespace InPay__CuriousCat_BackEnd.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int>("AccountId")
                         .HasColumnType("integer");
 
                     b.Property<string>("CEP")
@@ -201,8 +201,9 @@ namespace InPay__CuriousCat_BackEnd.Migrations
                     b.Property<int>("AccType")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Agency")
-                        .HasColumnType("integer");
+                    b.Property<string>("Agency")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<double>("AvailableLimit")
                         .HasColumnType("double precision");
@@ -501,7 +502,9 @@ namespace InPay__CuriousCat_BackEnd.Migrations
                 {
                     b.HasOne("InPay__CuriousCat_BackEnd.Domain.Models.Interfaces.Account", "Account")
                         .WithMany("AdressesHistory")
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });
