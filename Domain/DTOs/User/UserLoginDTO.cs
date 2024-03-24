@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
+
 
 namespace InPay__CuriousCat_BackEnd.Domain.DTOs.User;
 

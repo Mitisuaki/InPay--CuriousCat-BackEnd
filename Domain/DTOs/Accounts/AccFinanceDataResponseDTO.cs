@@ -1,6 +1,6 @@
 using InPay__CuriousCat_BackEnd.Domain.Models;
 
-namespace InPay__CuriousCat_BackEnd.Domain.DTOs.Account;
+namespace InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 
 public class AccFinanceDataResponseDTO
 {
@@ -10,5 +10,5 @@ public class AccFinanceDataResponseDTO
     public double ConfiguredAccLimit { get; set; }
     public double AvailableLimit { get; set; }
     public double TransactionLimit { get; set; }
-    public AccTransaction? Transactions { get; set; }
+    public virtual AccTransaction? Transactions { get; set; }
 }

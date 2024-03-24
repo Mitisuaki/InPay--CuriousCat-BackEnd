@@ -2,22 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.User;
 using InPay__CuriousCat_BackEnd.Domain.Services;
 using InPay__CuriousCat_BackEnd.Exceptions;
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Authentication;
 using InPay__CuriousCat_BackEnd.Domain.MiddleWares;
 using Microsoft.AspNetCore.Authorization;
-using System.Net;
-using System.Security.Claims;
 using InPay__CuriousCat_BackEnd.Domain.Models;
-using Microsoft.AspNetCore.Mvc.Routing;
-
-
 
 namespace InPay__CuriousCat_BackEnd.Controllers;
 
 
 [ApiController]
-[Route("users", Name = "User Rountes")]
+[Route("users", Name = "User Routes")]
 public class UserController : ControllerBase
 {
     private readonly UserServices _userService;
@@ -249,7 +242,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateUserPW(string id, UserForgotPWDTO userForgotPWDTO)
+    public async Task<IActionResult> ForgotPassWord(string id, UserForgotPWDTO userForgotPWDTO)
     {
         try
         {
@@ -285,6 +278,7 @@ public class UserController : ControllerBase
     [HttpDelete("/user/{id}/deleteUser")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -312,6 +306,10 @@ public class UserController : ControllerBase
         {
             return Unauthorized(e.Message);
         }
+        catch (BadHttpRequestException e)
+        {
+            return BadRequest(e.Message);
+        }
         catch (ServerProblemException e)
         {
             return StatusCode(500, e.Message);
@@ -320,6 +318,7 @@ public class UserController : ControllerBase
     [HttpPut("/user/{id}/undeleteUser")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -347,10 +346,15 @@ public class UserController : ControllerBase
         {
             return Unauthorized(e.Message);
         }
+        catch (BadHttpRequestException e)
+        {
+            return BadRequest(e.Message);
+        }
         catch (ServerProblemException e)
         {
             return StatusCode(500, e.Message);
         }
+
     }
 }
 
