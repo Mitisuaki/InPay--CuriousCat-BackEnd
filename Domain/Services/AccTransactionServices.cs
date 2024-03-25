@@ -47,7 +47,15 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
 
 
     }
-    public void CreateBoleto()
+    public void Withdraw()
+    {
+
+    }
+    public void Transfer()
+    {
+
+    }
+    public void ListAllTransactions()
     {
 
     }

@@ -6,11 +6,13 @@ using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Cors;
 
 namespace InPay__CuriousCat_BackEnd.Controllers;
 
 
 [ApiController]
+[EnableCors]
 [Route("user/{id}/acc", Name = "Accounts Routes")]
 public class AccController : ControllerBase
 {

@@ -4,12 +4,14 @@ using InPay__CuriousCat_BackEnd.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.Transactions;
 using InPay__CuriousCat_BackEnd.Exceptions;
+using Microsoft.AspNetCore.Cors;
 
 
 
 namespace InPay__CuriousCat_BackEnd.Controllers;
 
 [ApiController]
+[EnableCors]
 [Route("user/{id}/acc/{accNumber}/")]
 
 public class TransactionsController(AccTransactionServices accTransactionService, TokensVerifications tokensVerifications) : ControllerBase
