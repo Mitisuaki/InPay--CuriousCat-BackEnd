@@ -5,6 +5,7 @@ namespace InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 public class AccPFCreateDTO : AccCreateDTO
 {
     [Required]
+    [MinLength(11)]
     public string CPF { get; set; } = null!;
 
     [Required]

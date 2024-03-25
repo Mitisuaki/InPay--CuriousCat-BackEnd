@@ -6,6 +6,7 @@ namespace InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 public class AccPJCreateDTO : AccCreateDTO
 {
     [Required]
+    [MinLength(14)]
     public string CNPJ { get; set; } = null!;
 
     [Required]

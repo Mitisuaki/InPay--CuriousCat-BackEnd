@@ -75,6 +75,7 @@ public static class DependencyInjectionConfig
 
         services.AddScoped<UserServices>();
         services.AddScoped<AccountServices>();
+        services.AddScoped<AccTransactionServices>();
         services.AddSingleton<TokensVerifications>();
 
         return services;

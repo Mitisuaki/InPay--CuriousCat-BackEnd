@@ -226,3 +226,28 @@ Accept: application/json
 Authorization: Bearer {{authTokenLoggedPJAcc}}
 
 ###
+
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/deposit
+Content-Type: application/json
+Accept: application/json 
+
+{
+  "accNumber": 1648,
+  "agency": "0001",
+  "cpf": "123.456.789.12",
+  "value": 500
+}
+
+###
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/deposit
+Content-Type: application/json
+Accept: application/json 
+
+{
+  "accNumber": 6750,
+  "agency": "0001",
+  "cnpj": "12.345.678/0001-92",
+  "value": 500
+}
+
+###

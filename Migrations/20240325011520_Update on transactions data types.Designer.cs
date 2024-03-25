@@ -3,6 +3,7 @@ using System;
 using InPay__CuriousCat_BackEnd.Domain.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InPay__CuriousCat_BackEnd.Migrations
 {
     [DbContext(typeof(InpayDbContext))]
-    partial class InpayDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240325011520_Update on transactions data types")]
+    partial class Updateontransactionsdatatypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,8 +42,8 @@ namespace InPay__CuriousCat_BackEnd.Migrations
                     b.Property<int?>("AccountToOrFromId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("DateTime")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Direction")
                         .HasColumnType("integer");
