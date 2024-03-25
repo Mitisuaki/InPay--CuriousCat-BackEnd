@@ -128,7 +128,7 @@ public class TransactionsController(AccTransactionServices accTransactionService
     }
     [HttpGet("transactions")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TransactionsResponseDTO))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
