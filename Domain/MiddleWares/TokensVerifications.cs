@@ -26,7 +26,7 @@ public class TokensVerifications()
         string token = userToken.Split(" ")[1];
         var tokenHandler = new JwtSecurityTokenHandler();
         var jwtSecurityToken = tokenHandler.ReadJwtToken(token);
-        var userId = jwtSecurityToken.Claims.First(claim => claim.Type == "UserId").Value;
+        var userId = jwtSecurityToken.Claims.First(claim => claim.Type == "UserId" || claim.Type == "Id").Value;
         var accId = jwtSecurityToken.Claims.First(claim => claim.Type == "AccId").Value;
         var accNumber = jwtSecurityToken.Claims.First(claim => claim.Type == "AccNumber").Value;
 

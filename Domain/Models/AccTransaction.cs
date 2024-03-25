@@ -9,8 +9,8 @@ public class AccTransaction : Entity
     public EnumTransactionDirection Direction { get; set; }
     public EnumTransactionType Type { get; set; }
     public EnumTransactionStatus Status { get; set; }
-    public int Date { get; set; }
-    public int Value { get; set; }
+    public DateTime Date { get; set; }
+    public double Value { get; set; }
 
     [ForeignKey("AccountId")]
     public int AccountId { get; set; }

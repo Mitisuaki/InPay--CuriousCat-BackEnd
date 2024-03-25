@@ -5,11 +5,13 @@ using InPay__CuriousCat_BackEnd.Exceptions;
 using InPay__CuriousCat_BackEnd.Domain.MiddleWares;
 using Microsoft.AspNetCore.Authorization;
 using InPay__CuriousCat_BackEnd.Domain.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace InPay__CuriousCat_BackEnd.Controllers;
 
 
 [ApiController]
+[EnableCors]
 [Route("users", Name = "User Routes")]
 public class UserController : ControllerBase
 {
