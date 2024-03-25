@@ -1,5 +1,6 @@
 using AutoMapper;
 using InPay__CuriousCat_BackEnd.Domain.Db;
+using InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.Transactions;
 using InPay__CuriousCat_BackEnd.Domain.Models;
 using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
@@ -7,10 +8,12 @@ using InPay__CuriousCat_BackEnd.Exceptions;
 
 namespace InPay__CuriousCat_BackEnd.Domain.Services;
 
-public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContext)
+public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContext, AccountServices accService)
 {
     private readonly IMapper _mapper = mapper;
     private readonly InpayDbContext _inpayDbContext = inpayDbContext;
+
+    private readonly AccountServices _accService = accService;
     public async Task Deposit(DepoistRequestDTO depositInfo)
     {
         if (depositInfo.CPF is null && depositInfo.CNPJ is null)
@@ -47,8 +50,34 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
 
 
     }
-    public void Withdraw()
+    public async Task<double> Withdraw(AccTokenVerificationResponseDTO claims, WithdrawRequestDTO withdrawRequestDTO)
     {
+        Account acc = this.GetAcc(claims);
+
+        if (acc.TransactionLimit < withdrawRequestDTO.Value)
+        {
+            throw new BadHttpRequestException($"This acc can't complete this transaction because it's value is higher than the transction limited setted for this acc, please do a lower transaction value or contact us to help you. \n The current transaction limit is R${acc.TransactionLimit}");
+        }
+
+        double currentBalance = acc.Balance;
+
+        if (currentBalance < withdrawRequestDTO.Value)
+        {
+            throw new BadHttpRequestException($"This acc doesn't have enough funds to do this withdraw. The current balance is R${currentBalance}");
+        }
+
+        acc.Balance -= withdrawRequestDTO.Value;
+
+        _inpayDbContext.Accounts.Update(acc);
+
+        WithdrawCreationDTO transaction = new(withdrawRequestDTO.Value, acc.Id);
+        AccTransaction transactionToSave = _mapper.Map<AccTransaction>(transaction);
+
+        _inpayDbContext.Transactions.Add(transactionToSave);
+
+        await _inpayDbContext.SaveChangesAsync();
+
+        return acc.Balance;
 
     }
     public void Transfer()
@@ -85,5 +114,15 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
             throw new NotFoundException("There's no account that matches the infomed info, please check and try again");
 
         return getAccCnpj.ToList()[0];
+    }
+    public Account GetAcc(AccTokenVerificationResponseDTO claim)
+    {
+
+        var getAcc = _inpayDbContext.Accounts.Where(acc => acc.AccNumber == int.Parse(claim.AccNumber) && acc.UserId == claim.UserId && acc.Id == int.Parse(claim.AccId));
+
+        if (!getAcc.Any())
+            throw new NotFoundException("There's no account that matches the infomed info, please check and try again");
+
+        return getAcc.ToList()[0];
     }
 }

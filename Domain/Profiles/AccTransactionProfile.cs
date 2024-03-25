@@ -9,5 +9,6 @@ public class AccTransactionProfile : Profile
     public AccTransactionProfile()
     {
         CreateMap<DepositCreationDTO, AccTransaction>();
+        CreateMap<WithdrawCreationDTO, AccTransaction>();
     }
 }

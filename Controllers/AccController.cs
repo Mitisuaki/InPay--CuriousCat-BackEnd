@@ -122,7 +122,7 @@ public class AccController : ControllerBase
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public IActionResult GetAccInfoById(string id, string accNumber)
+    public IActionResult GetBalance(string id, string accNumber)
     {
         try
         {

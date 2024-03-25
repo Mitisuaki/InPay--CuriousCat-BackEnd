@@ -8,4 +8,5 @@ public class AccTokenVerificationResponseDTO(string userId, string accId, string
     public string AccId { get; private set; } = accId;
 
     public string AccNumber { get; private set; } = accNumber;
+
 }
