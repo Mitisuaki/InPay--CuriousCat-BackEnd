@@ -109,6 +109,10 @@ public class TransactionsController(AccTransactionServices accTransactionService
 
             return Ok();
         }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
         catch (NotFoundException e)
         {
             return BadRequest(e.Message);
@@ -116,6 +120,35 @@ public class TransactionsController(AccTransactionServices accTransactionService
         catch (BadHttpRequestException e)
         {
             return BadRequest(e.Message);
+        }
+        catch (ServerProblemException e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
+    [HttpGet("transactions")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult Transations(string userId, string accNumber)
+    {
+        try
+        {
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.AccTokenVerification(authorization!);
+
+            if (tokenClaims.UserId != userId || tokenClaims.AccNumber != accNumber)
+                throw new UnauthorizedAccessException($"You're not authorized to acess this content");
+
+            var transactions = _accTransactionService.ListAllTransactions(tokenClaims);
+
+            return Ok(transactions);
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
         }
         catch (ServerProblemException e)
         {

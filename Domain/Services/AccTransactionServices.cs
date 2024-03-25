@@ -3,6 +3,7 @@ using InPay__CuriousCat_BackEnd.Domain.Db;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.Accounts;
 using InPay__CuriousCat_BackEnd.Domain.DTOs.Transactions;
 using InPay__CuriousCat_BackEnd.Domain.Models;
+using InPay__CuriousCat_BackEnd.Domain.Models.Enums;
 using InPay__CuriousCat_BackEnd.Domain.Models.Interfaces;
 using InPay__CuriousCat_BackEnd.Exceptions;
 
@@ -14,7 +15,7 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
     private readonly InpayDbContext _inpayDbContext = inpayDbContext;
 
     private readonly AccountServices _accService = accService;
-    public async Task Deposit(DepositRequestDTO depositInfo)
+    public async Task Deposit(DepositRequestDTO depositInfo, int? fromAccID = 0)
     {
         if (depositInfo.CPF is null && depositInfo.CNPJ is null)
         {
@@ -24,7 +25,6 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
         {
             throw new BadHttpRequestException("Please provide only CPF or CNPJ value to the acc you want to deposit");
         }
-
 
         Account acc = new();
 
@@ -44,13 +44,18 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
         DepositCreationDTO transaction = new(depositInfo.Value, acc.Id);
         AccTransaction transactionToSave = _mapper.Map<AccTransaction>(transaction);
 
+        if (fromAccID != 0)
+        {
+            transactionToSave.AccountToOrFromId = fromAccID;
+        }
+
         _inpayDbContext.Transactions.Add(transactionToSave);
 
         await _inpayDbContext.SaveChangesAsync();
 
 
     }
-    public async Task<double> Withdraw(AccTokenVerificationResponseDTO claims, WithdrawRequestDTO withdrawRequestDTO)
+    public async Task<double> Withdraw(AccTokenVerificationResponseDTO claims, WithdrawRequestDTO withdrawRequestDTO, TransferRequestDTO? transferRequestDTO = null)
     {
         Account acc = this.GetAcc(claims);
 
@@ -73,6 +78,22 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
         WithdrawCreationDTO transaction = new(withdrawRequestDTO.Value, acc.Id);
         AccTransaction transactionToSave = _mapper.Map<AccTransaction>(transaction);
 
+        if (transferRequestDTO != null)
+        {
+            Account accTo = new();
+
+            if (transferRequestDTO.CPF is not null)
+            {
+                accTo = this.GetAcc(transferRequestDTO.AccToTransferNumber, transferRequestDTO.Agency, "cpf", transferRequestDTO.CPF);
+            }
+            if (transferRequestDTO.CNPJ is not null)
+            {
+                accTo = this.GetAcc(transferRequestDTO.AccToTransferNumber, transferRequestDTO.Agency, "cnpj", transferRequestDTO.CNPJ);
+            }
+
+            transactionToSave.AccountToOrFromId = accTo.Id;
+        }
+
         _inpayDbContext.Transactions.Add(transactionToSave);
 
         await _inpayDbContext.SaveChangesAsync();
@@ -82,13 +103,39 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
     }
     public async Task Transfer(AccTokenVerificationResponseDTO claims, TransferRequestDTO transferRequestDTO)
     {
-        await Withdraw(claims, _mapper.Map<WithdrawRequestDTO>(transferRequestDTO));
 
-        await Deposit(_mapper.Map<DepositRequestDTO>(transferRequestDTO));
+
+        await Withdraw(claims, _mapper.Map<WithdrawRequestDTO>(transferRequestDTO), transferRequestDTO);
+
+        await Deposit(_mapper.Map<DepositRequestDTO>(transferRequestDTO), int.Parse(claims.AccId));
     }
 
-    public void ListAllTransactions()
+    public TransactionsResponseDTO ListAllTransactions(AccTokenVerificationResponseDTO claims)
     {
+        int accId = int.Parse(claims.AccId);
+
+        List<AccTransaction> accDW = _inpayDbContext.Transactions.Where(transaction => transaction.AccountId == accId
+                                                && transaction.AccountToOrFromId == null)
+                                               .ToList();
+        List<AccTransaction> accTIN = _inpayDbContext.Transactions.Where(transaction => transaction.AccountId == accId
+                                                && transaction.Direction == EnumTransactionDirection.IN
+                                                && transaction.AccountToOrFromId != null)
+                                               .ToList();
+        List<AccTransaction> accTOUT = _inpayDbContext.Transactions.Where(transaction => transaction.AccountId == accId
+                                                && transaction.Direction == EnumTransactionDirection.OUT
+                                                && transaction.AccountToOrFromId != null)
+                                               .ToList();
+
+
+        List<AccDWTransactionsDTO> mappedDWTransactions = _mapper.Map<List<AccDWTransactionsDTO>>(accDW) ?? [];
+        List<AccTINransactionsDTO> mappedTINTransactions = _mapper.Map<List<AccTINransactionsDTO>>(accTIN) ?? [];
+        List<AccTOUTransactionsDTO> mappedTOUTransactions = _mapper.Map<List<AccTOUTransactionsDTO>>(accTOUT) ?? [];
+
+
+        AccTTransactionsDTO allTransfers = new(mappedTINTransactions, mappedTOUTransactions);
+        TransactionsResponseDTO allTransactions = new(mappedDWTransactions, allTransfers);
+
+        return allTransactions;
 
     }
     public void PayBoleto()

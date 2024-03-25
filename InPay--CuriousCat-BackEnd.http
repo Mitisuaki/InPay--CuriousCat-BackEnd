@@ -304,7 +304,7 @@ Accept: application/json
 Authorization: Bearer {{authTokenLoggedPFAcc}}
 
 {
-  "value": 500
+  "value": 200
 }
 
 ###
@@ -345,3 +345,16 @@ Authorization: Bearer {{authTokenLoggedPJAcc}}
   "value": 500
 }
 
+###
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/2265/transactions
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPFAcc}}
+
+###6
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/9843/transactions
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPJAcc}}
