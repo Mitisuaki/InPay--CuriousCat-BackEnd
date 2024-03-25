@@ -1,0 +1,11 @@
+
+using InPay__CuriousCat_BackEnd.Domain.Models.Enums;
+
+namespace InPay__CuriousCat_BackEnd.Domain.DTOs.Transactions;
+public class AccTOUTransactionsDTO
+{
+    public string Status { get; set; } = null!;
+    public DateTime Date { get; set; }
+    public double Value { get; set; }
+    public int AccToID { get; set; }
+}

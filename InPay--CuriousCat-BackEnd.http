@@ -1,6 +1,360 @@
 @InPay__CuriousCat_BackEnd_HostAddress = http://localhost:5066
+@authTOkenNormalUser = {{loginNormalUser.response.body.userToken}}
+@authTOkenAdmin = {{loginADmin.response.body.userToken}}
 
-GET {{InPay__CuriousCat_BackEnd_HostAddress}}/weatherforecast/
-Accept: application/json
+@authTokenLoggedPFAcc = {{LoginAccPF.response.body.AccToken}}
+@authTokenLoggedPJAcc = {{LoginAccPJ.response.body.AccToken}}
+
+Post {{InPay__CuriousCat_BackEnd_HostAddress}}/register
+Content-Type: application/json
+Accept: application/json   
+
+{
+  "userName": "Miti",
+  "email": "miti@miti.com",
+  "phoneNumber": "+55 41 9 9999-9999",
+  "password": "Miti@123456",
+  "passwordConfirmation": "Miti@123456",
+  "recoveryCode": "123456",
+  "antiPishingCode": "87654321"
+}
 
 ###
+
+# @name loginNormalUser
+Post {{InPay__CuriousCat_BackEnd_HostAddress}}/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "miti3@miti.com",
+  "password": "Miti@123456"
+}
+
+###
+
+# @name loginADmin
+Post {{InPay__CuriousCat_BackEnd_HostAddress}}/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "miti@miti.com",
+  "password": "Miti@123456"
+}
+
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943
+Accept: application/json
+Authorization: Bearer {{authTOkenNormalUser}}
+
+###
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+Accept: application/json
+Authorization: Bearer {{authTOkenNormalUser}}
+
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6d96b8e3-033d-473e-8c4e-323b2ef31a40
+Accept: application/json
+Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
+Accept: application/json
+Authorization: Bearer {{authTOkenNormalUser}}
+
+###
+
+GET {{InPay__CuriousCat_BackEnd_HostAddress}}/users
+Accept: application/json
+Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
+Put {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "userName": "Miti3Atualizado",
+  "email": "miti3@miti.com",
+  "phoneNumber": "+55 41 9 9999-9999"
+}
+
+###
+Put {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "userName": "Miti3Atualizado",
+  "email": "miti3@miti.com",
+  "phoneNumber": "+55 41 9 9999-9999"
+}
+
+###
+
+PATCH  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "userName": "Miti3Patched"
+}
+
+###
+PATCH  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "userName": "Miti3Patched"
+}
+
+###
+
+PUT  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/changePassword
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "currentPassword": "Miti@123456",
+  "newPassword": "Miti@123456",
+  "newPasswordConfirmation": "Miti@123456"
+}
+###
+
+PUT  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/changePassword
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "currentPassword": "Miti@123456",
+  "newPassword": "Miti@123456",
+  "newPasswordConfirmation": "Miti@123456"
+}
+
+###
+
+PUT  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/forgotPassword
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "recoveryCode": "123456",
+  "newPassword": "Miti@123456",
+  "newPasswordConfirmation": "Miti@123456"
+}
+###
+
+PUT  {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/forgotPassword
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+{
+  "recoveryCode": "123456",
+  "newPassword": "Miti@123456",
+  "newPasswordConfirmation": "Miti@123456"
+}
+
+###
+
+DELETE   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/deleteUser
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
+PUT    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/undeleteUser
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenAdmin}}
+
+###
+
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/createPFAcc
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "accNickName": "MitiPF",
+  "adress": {
+    "cep": "80330-000",
+    "street": "Street",
+    "number": 177,
+    "neighborhood": "Bairro",
+    "city": "Cidade",
+    "state": "Estado",
+    "country": "Pais",
+    "complement": "Complemento"
+  },
+  "accRecoveryCode": "123456",
+  "cpf": "123.456.789.99",
+  "name": "Miti User Acc",
+  "birthDay": "1990-01-22T01:15:52.164Z"
+}
+
+###
+
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/createPJAcc/
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "accNickName": "MitiPJ",
+  "adress": {
+    "cep": "80330-000",
+    "street": "Street",
+    "number": 177,
+    "neighborhood": "Bairro",
+    "city": "Cidade",
+    "state": "Estado",
+    "country": "Pais",
+    "complement": "Complemento"
+  },
+  "accRecoveryCode": "string",
+  "cnpj": "12.345.678/0001-99",
+  "companyName": "Miti Empresa de Teste",
+  "companyEmail": "mitiEmpresa@mitiempresa.com",
+  "password": "Empresa@teste123",
+  "passwordConfirmation": "Empresa@teste123"
+}
+
+###
+
+# @name LoginAccPF
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/login
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "accNumber": 2265
+}
+
+###
+# @name LoginAccPJ
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/login
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTOkenNormalUser}}
+
+{
+  "accNumber": 9843
+}
+
+###
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/2265/balance
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTokenLoggedPFAcc}}
+
+###
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/9843/balance
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTokenLoggedPJAcc}}
+
+###
+
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/deposit
+Content-Type: application/json
+Accept: application/json 
+
+{
+  "accNumber": 2265,
+  "agency": "0001",
+  "cpf": "123.456.789.99",
+  "value": 500
+}
+
+###
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/deposit
+Content-Type: application/json
+Accept: application/json 
+
+{
+  "accNumber": 9843,
+  "agency": "0001",
+  "cnpj": "12.345.678/0001-99",
+  "value": 500
+}
+
+###
+
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/2265/withdraw
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTokenLoggedPFAcc}}
+
+{
+  "value": 200
+}
+
+###
+
+POST   {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/9843/withdraw
+Content-Type: application/json
+Accept: application/json   
+Authorization: Bearer {{authTokenLoggedPJAcc}}
+
+{
+  "value": 235
+}
+
+###
+
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/2265/transfer
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPFAcc}}
+
+{
+  "accToTransferNumber": 9843,
+  "agency": "0001",
+  "cnpj": "12.345.678/0001-99",
+  "value": 500
+}
+###
+
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/9843/transfer
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPJAcc}}
+
+{
+  "accToTransferNumber": 2265,
+  "agency": "0001",
+  "cpf": "123.456.789.99",
+  "value": 500
+}
+
+###
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/2265/transactions
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPFAcc}}
+
+###6
+
+GET    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/9843/transactions
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPJAcc}}
