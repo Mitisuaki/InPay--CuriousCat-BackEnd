@@ -10,5 +10,8 @@ public class AccTransactionProfile : Profile
     {
         CreateMap<DepositCreationDTO, AccTransaction>();
         CreateMap<WithdrawCreationDTO, AccTransaction>();
+        CreateMap<TransferRequestDTO, DepositRequestDTO>()
+            .ForMember(dest => dest.AccNumber, opt => opt.MapFrom(src => src.AccToTransferNumber));
+        CreateMap<TransferRequestDTO, WithdrawRequestDTO>();
     }
 }

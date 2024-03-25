@@ -2,10 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace InPay__CuriousCat_BackEnd.Domain.DTOs.Transactions;
 
-public class DepoistRequestDTO
+public class TransferRequestDTO
 {
-    [Required]
-    public int AccNumber { get; set; }
+    [Range(1, int.MaxValue, ErrorMessage = "Inform the AccNumber that will receive the ransfer id Required")]
+    public int AccToTransferNumber { get; set; }
 
     [Required]
     public string Agency { get; set; } = null!;

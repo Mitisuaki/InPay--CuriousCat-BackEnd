@@ -25,7 +25,7 @@ public class TransactionsController(AccTransactionServices accTransactionService
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Deposit([FromBody] DepoistRequestDTO depositInfo)
+    public async Task<IActionResult> Deposit([FromBody] DepositRequestDTO depositInfo)
     {
         try
         {
@@ -46,6 +46,7 @@ public class TransactionsController(AccTransactionServices accTransactionService
             return StatusCode(500, e.Message);
         }
     }
+
     [HttpPost("withdraw")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -83,35 +84,45 @@ public class TransactionsController(AccTransactionServices accTransactionService
         }
     }
 
-    // [HttpPost("/deposit")]
-    // [Authorize(AuthenticationSchemes = "Bearer")]
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    // [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    // [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    // public async Task<IActionResult> Deposit([FromBody] DepoistRequestDTO accPFCreateDTO, string id, string accNumber)
-    // {
-    //     try
-    //     {
-    //         Request.Headers.TryGetValue("authorization", out var authorization);
-    //         var tokenClaims = _tokensVerifications.AccTokenVerification(authorization!);
+    [HttpPost("transfer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Transfer(string userId, string accNumber, TransferRequestDTO transferRequestDTO)
+    {
+        try
+        {
+            if (accNumber == transferRequestDTO.AccToTransferNumber.ToString())
+            {
+                return BadRequest("You can't transfer a value to the same acc");
+            }
 
-    //         if (tokenClaims.UserId != id || tokenClaims.AccNumber != accNumber)
-    //             throw new UnauthorizedAccessException("You're not authorized to acess this content");
+            Request.Headers.TryGetValue("authorization", out var authorization);
+            var tokenClaims = _tokensVerifications.AccTokenVerification(authorization!);
 
-    //         var accCreated = await _accTransactionService.Deposit(accPFCreateDTO, id);
+            if (tokenClaims.UserId != userId || tokenClaims.AccNumber != accNumber)
+                throw new UnauthorizedAccessException($"You're not authorized to acess this content");
 
-    //         // return CreatedAtAction(nameof(GetAccInfoById), new { accCreated.Id }, accCreated);
-    //         return Ok(accCreated);
-    //     }
-    //     catch (AlreadyExistsException e)
-    //     {
-    //         return BadRequest(e.Message);
-    //     }
-    //     catch (UnauthorizedAccessException e)
-    //     {
-    //         return Unauthorized(e.Message);
-    //     }
-    // }
+            await _accTransactionService.Transfer(tokenClaims, transferRequestDTO);
+
+            return Ok();
+        }
+        catch (NotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (BadHttpRequestException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (ServerProblemException e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
+
+
 
 }

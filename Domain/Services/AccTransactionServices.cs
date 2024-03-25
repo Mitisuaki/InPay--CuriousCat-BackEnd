@@ -14,7 +14,7 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
     private readonly InpayDbContext _inpayDbContext = inpayDbContext;
 
     private readonly AccountServices _accService = accService;
-    public async Task Deposit(DepoistRequestDTO depositInfo)
+    public async Task Deposit(DepositRequestDTO depositInfo)
     {
         if (depositInfo.CPF is null && depositInfo.CNPJ is null)
         {
@@ -80,10 +80,13 @@ public class AccTransactionServices(IMapper mapper, InpayDbContext inpayDbContex
         return acc.Balance;
 
     }
-    public void Transfer()
+    public async Task Transfer(AccTokenVerificationResponseDTO claims, TransferRequestDTO transferRequestDTO)
     {
+        await Withdraw(claims, _mapper.Map<WithdrawRequestDTO>(transferRequestDTO));
 
+        await Deposit(_mapper.Map<DepositRequestDTO>(transferRequestDTO));
     }
+
     public void ListAllTransactions()
     {
 

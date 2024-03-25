@@ -319,3 +319,29 @@ Authorization: Bearer {{authTokenLoggedPJAcc}}
 }
 
 ###
+
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/2265/transfer
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPFAcc}}
+
+{
+  "accToTransferNumber": 9843,
+  "agency": "0001",
+  "cnpj": "12.345.678/0001-99",
+  "value": 500
+}
+###
+
+POST    {{InPay__CuriousCat_BackEnd_HostAddress}}/user/6884cf1c-6c5a-48d4-88be-547d9125c943/acc/9843/transfer
+Content-Type: application/json
+Accept: application/json 
+Authorization: Bearer {{authTokenLoggedPJAcc}}
+
+{
+  "accToTransferNumber": 2265,
+  "agency": "0001",
+  "cpf": "123.456.789.99",
+  "value": 500
+}
+
